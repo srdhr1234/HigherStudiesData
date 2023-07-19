@@ -1,19 +1,19 @@
-import pandas as pd
 from flask import Flask, render_template, request
+from flask_frozen import Freezer
 
 app = Flask(__name__)
+freezer = Freezer(app)
 
 # Function to search and retrieve matching entries
 def search_entries(search_term):
-    search_term = search_term.lower()
-    df['SAP ID'] = df['SAP ID'].astype(str)  # Convert 'SAP ID' column to string type
-    matching_entries = df[(df['SAP ID'].str.lower().str.contains(search_term)) |
-                          (df['Student Name'].str.lower().str.contains(search_term))]
-    return matching_entries.to_html(index=False)
-
-
-# Load the Excel file into a pandas DataFrame
-df = pd.read_excel('Higher_Studies.xlsx')
+    # Implement your search logic here
+    # This function should return the matching entries based on the search term
+    # For now, let's assume it returns a list of dummy results
+    dummy_results = [
+        {'SAP ID': '123', 'Student Name': 'John Doe'},
+        {'SAP ID': '456', 'Student Name': 'Jane Smith'}
+    ]
+    return dummy_results
 
 @app.route('/')
 def index():
@@ -25,6 +25,9 @@ def search():
     results = search_entries(search_term)
     return render_template('results.html', results=results), 200, {'Content-Type': 'text/html; charset=utf-8'}
 
+@app.route('/results.html')
+def results():
+    return render_template('results.html')
 
 if __name__ == '__main__':
-    app.run()
+    freezer.freeze()
